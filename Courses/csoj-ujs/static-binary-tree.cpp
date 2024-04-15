@@ -62,34 +62,45 @@ void findNodeInfo(const vector<TreeNode> &tree, char key) {
     }
 }
 
-void deleteSubTree(vector<TreeNode> &tree, char key) {
-    for (TreeNode &node : tree) {
-
-        if (node.alpha == key) {
+bool deleteSubTree(vector<TreeNode> &tree, char key) {
+    bool found = false;
+    int index = 0;
+    for (auto it = tree.begin(); it != tree.end(); ++it) {
+        if (it->alpha == key) {
+            found = true;
             // Find the children
-            if (node.lchild != 0) {
-                deleteSubTree(tree, tree[node.lchild - 1].alpha);
+            if (it->lchild != 0) {
+                deleteSubTree(tree, tree[it->lchild - 1].alpha);
             }
-            if (node.rchild != 0) {
-                deleteSubTree(tree, tree[node.rchild - 1].alpha);
+            if (it->rchild != 0) {
+                deleteSubTree(tree, tree[it->rchild - 1].alpha);
             }
-
-            node.alpha = '0';
-            node.lchild = 0;
-            node.rchild = 0;
 
             for (TreeNode &parent : tree) {
-                if (parent.lchild == index_map[key]) {
+                if (index_map[key] == parent.lchild) {
                     parent.lchild = 0;
-                } else if (parent.rchild == index_map[key]) {
+                } else if (index_map[key] == parent.rchild) {
                     parent.rchild = 0;
                 }
             }
 
-            break; // No need to continue searching once found
+            for (TreeNode &temp : tree) {
+                if (temp.lchild > index) temp.lchild--;
+                else if (temp.lchild == index + 1) temp.lchild = 0; // Update parent's lchild if it points to the deleted node
+                if (temp.rchild > index) temp.rchild--;
+                else if (temp.rchild == index + 1) temp.rchild = 0; // Update parent's rchild if it points to the deleted node
+            }
+            
+            it = tree.erase(it); // Erase the node
+            --it; // Move iterator back to point to the correct position
+            break;
         }
+        index++;
     }
+    return found;
 }
+
+
 
 int main() {
     vector<TreeNode> tree = buildTree();
@@ -97,13 +108,15 @@ int main() {
     char find_key, delete_key;
     cin >> find_key >> delete_key;
     findNodeInfo(tree, find_key);
-    deleteSubTree(tree, delete_key);
-
     // Output the modified tree
-    for (const auto &node : tree) {
-        if (node.alpha != '0') {
-            cout << node.alpha << " " << node.lchild << " " << node.rchild << endl;
+    if (deleteSubTree(tree, delete_key)) {
+        for (const auto &node : tree) {
+            if (node.alpha != '0') {
+                cout << node.alpha << " " << node.lchild << " " << node.rchild << endl;
+            }
         }
+    } else {
+        cout << "ERROR" << endl;
     }
 
     return 0;
