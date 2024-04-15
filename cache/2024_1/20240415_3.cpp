@@ -48,12 +48,12 @@ void findNodeInfo(const vector<TreeNode> &tree, char key) {
 
             // Find children node
             if (node.lchild != 0) {
-                cout << index_map[node.lchild] << endl;
+                cout << tree.at(node.lchild - 1).alpha << endl;
             } else {
                 cout << "no lchild" << endl;
             }
             if (node.rchild != 0) {
-                cout << index_map[node.rchild] << endl;
+                cout << tree.at(node.rchild - 1).alpha << endl;
             } else {
                 cout << "no rchild" << endl;
             }

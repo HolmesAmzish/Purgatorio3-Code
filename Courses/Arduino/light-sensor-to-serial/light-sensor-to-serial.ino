@@ -1,4 +1,4 @@
-#define LightSensor 11
+#define LightSensor A4
 
 void setup() {
   Serial.begin(9600);
@@ -6,7 +6,7 @@ void setup() {
 }
 
 void loop() {
-  sensor_value = analogRead(LightSensor);
+  int sensor_value = analogRead(LightSensor);
   if (sensor_value > 250) {
     Serial.println("Light intensity value is large!");
   } else if (sensor_value < 50) {
