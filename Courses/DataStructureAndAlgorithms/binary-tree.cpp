@@ -8,6 +8,8 @@ struct TreeNode{
     TreeNode(int x) : value(x), left(nullptr), right(nullptr) {}
 };
 
+
+// 递归生成树
 TreeNode* createTree(int value) {
     if (value == 0)
         return nullptr;
@@ -27,7 +29,14 @@ void printTree(TreeNode* root) {
     printTree(root->right);
 }
 
-
+// 递归释放整棵树
+void destoryTree(TreeNode* root) {
+    if (root != NULL) {
+        destoryTree(root->left);
+        destoryTree(root->right);
+        free(root);
+    }
+}
 
 int main() {
     TreeNode* root = createTree(4);
@@ -35,6 +44,6 @@ int main() {
     printTree(root);
     cout << endl;
 
-    delete root;
+    destoryTree(root);
     return 0;
 }

@@ -1,11 +1,11 @@
 #include <LiquidCrystal_I2C.h>
 #include <string.h>
 
-#define BUZZER 10//蜂鸣器
-#define LED_RED 13//红灯
-#define IR_IN  2  //红外接收
+#define BUZZER 10 //蜂鸣器
+#define LED_RED 13 //红灯
+#define IR_IN 2 //红外接收
 
-int pulse_width = 0;//存储脉宽
+int pulse_width =0;//存储脉宽
 int ir_code=0x00;//命令值
 
 const int hex_values[] = {0xf30c, 0xef10, 0xee11, 0xed12, 0xeb14, 0xea15, 0xe916, 0xe718, 0xe619, 0xe51a};
@@ -65,24 +65,24 @@ void remote_decode(void) {
   //如果高电平持续时间不超过100ms
   TCNT1=0X00;
   while(!(digitalRead(IR_IN))); //低等待
-  pulse_width =TCNT1;
+  pulse_width = TCNT1;
   TCNT1=0;
-  if(pulse_width >=140&&pulse_width <=143)//9ms
+  if(pulse_width >= 140 && pulse_width <= 143)//9ms
   {
-    while(digitalRead(IR_IN));//是高就等待
-    pulse_width =TCNT1;
-    TCNT1=0;
-    if(pulse_width >=68&&pulse_width <=72)//4.5ms
+    while (digitalRead(IR_IN));//是高就等待
+    pulse_width = TCNT1;
+    TCNT1 = 0;
+    if(pulse_width >= 68 && pulse_width <= 72)//4.5ms
     {
       pulse_deal();
       return;
     }
-    else if(pulse_width >=34&&pulse_width <=36)//2.25ms
+    else if(pulse_width >= 34 && pulse_width <= 36)//2.25ms
     {
       while(!(digitalRead(IR_IN)));//低等待
-      pulse_width =TCNT1;
-      TCNT1=0;
-      if(pulse_width >=7&&pulse_width <=10)//560us
+      pulse_width = TCNT1;
+      TCNT1 = 0;
+      if(pulse_width >= 7 && pulse_width <= 10)//560us
       {
         return;
       }
@@ -106,7 +106,7 @@ char logic_value() {
   while(!(digitalRead(IR_IN))); //低等待
   pulse_width =TCNT1;
   TCNT1=0;
-  if(pulse_width >=7&&pulse_width <=10)//低电平560us
+  if(pulse_width >= 7 && pulse_width <= 10)//低电平560us
   {
     while(digitalRead(IR_IN));//是高就等待
     pulse_width =TCNT1;
@@ -127,9 +127,9 @@ void setup() {
   lcd.setCursor(0, 0);
   lcd.print("enter passwd: ");
 
-  pinMode(LED_RED,OUTPUT);
-  pinMode(BUZZER,OUTPUT);
-  pinMode(IR_IN,INPUT);
+  pinMode(LED_RED, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  pinMode(IR_IN, INPUT);
   timerInit();
 }
 
