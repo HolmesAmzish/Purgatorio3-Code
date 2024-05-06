@@ -1,6 +1,9 @@
+/*
+ * 
+ */
+
 #include <iostream>
 #include <cmath>
-
 using namespace std;
 
 int GetLen(int num) {
@@ -9,8 +12,8 @@ int GetLen(int num) {
 
 void Convert(int num, int p) {
     if (p == 0) return;
-    int current_p = (num >> (p - 1)) & 1;
-    if (!current_p) {
+    int digit = (num >> (p - 1)) & 1;
+    if (!digit) {
         Convert(num, p - 1);
     } else {
         if (p != GetLen(num)) cout << '+';
