@@ -1,5 +1,7 @@
 /*
- *
+ * Program: binary-tree-height.cpp
+ * Date: 2024.05.06
+ * Description: get the height of specific node
  */
 
 #include <iostream>
